@@ -1,8 +1,21 @@
 const express = require('express');
-const { authenticateToken } = require('../middleware/auth');
+const { authenticateToken, requireAdmin } = require('../middleware/auth');
 const Booking = require('../models/Booking');
 
 const router = express.Router();
+
+// Admin: Get ALL bookings
+router.get('/', authenticateToken, requireAdmin, async (req, res) => {
+  try {
+    const bookings = await Booking.find()
+      .populate('movie')
+      .populate('theater')
+      .populate('user', 'email name');
+    res.json(bookings);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch all bookings' });
+  }
+});
 
 // Create booking
 router.post('/', authenticateToken, async (req, res) => {

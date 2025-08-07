@@ -18,7 +18,7 @@ export default function Login({ setUser }) {
       const res = await axios.post('http://localhost:5000/api/auth/login', formData);
       localStorage.setItem('token', res.data.token);
       setUser(res.data.user); // Set logged-in user in parent state
-      navigate('/');
+      navigate('/movies');
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
     }
