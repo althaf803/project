@@ -1,6 +1,7 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
 const connectDB = require('./db'); // Import the connection
 const movieRoutes = require('./routes/movies');
 

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const connectDB = async () => {
   try {
     // Replace 'movie_booking' with your chosen database name
-    await mongoose.connect('mongodb+srv://althaf:althu803@althaf.wjl50gk.mongodb.net/', {
+    await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
