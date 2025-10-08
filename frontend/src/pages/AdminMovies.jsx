@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api'; // Corrected
 import BackToMovies from '../components/BackToMovies';
 
 export default function AdminMovies() {
@@ -34,14 +34,14 @@ export default function AdminMovies() {
 
   const fetchMovies = () => {
     setLoading(true);
-    axios.get('http://localhost:5000/api/movies')
+    api.get('/api/movies')
       .then(res => setMovies(res.data))
       .catch(() => setMovies([]))
       .finally(() => setLoading(false));
   };
 
   const fetchTheaters = () => {
-    axios.get('http://localhost:5000/api/theaters')
+    api.get('/api/theaters')
       .then(res => setTheaters(res.data))
       .catch(() => setTheaters([]));
   };
@@ -144,7 +144,7 @@ export default function AdminMovies() {
     }
 
     if (editId) {
-      axios.put(`http://localhost:5000/api/movies/${editId}`, movieData, config)
+      api.put(`/api/movies/${editId}`, movieData, config)
         .then(() => {
           resetForm();
           fetchMovies();
@@ -152,7 +152,7 @@ export default function AdminMovies() {
         })
         .catch(err => setError(err.response?.data?.error || 'Failed to update movie'));
     } else {
-      axios.post('http://localhost:5000/api/movies', movieData, config)
+      api.post('/api/movies', movieData, config)
         .then(() => {
           resetForm();
           fetchMovies();
@@ -194,7 +194,7 @@ export default function AdminMovies() {
 
   const handleDelete = (id) => {
     if (!window.confirm('Are you sure you want to delete this movie?')) return;
-    axios.delete(`http://localhost:5000/api/movies/${id}`, config)
+    api.delete(`/api/movies/${id}`, config)
       .then(() => {
         fetchMovies();
         alert('Movie deleted');

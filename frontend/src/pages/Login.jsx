@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import api from '../api'; // Corrected
 import { useNavigate } from 'react-router-dom';
 
 export default function Login({ setUser }) {
@@ -15,7 +15,7 @@ export default function Login({ setUser }) {
     e.preventDefault();
     setError('');
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', formData);
+      const res = await api.post('/api/auth/login', formData);
       localStorage.setItem('token', res.data.token);
       setUser(res.data.user); // Set logged-in user in parent state
       navigate('/movies');

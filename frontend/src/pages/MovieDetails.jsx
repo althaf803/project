@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api'; // Corrected
 import BackToMovies from '../components/BackToMovies';
 
 export default function MovieDetails() {
@@ -22,7 +22,7 @@ export default function MovieDetails() {
   // Fetch movie details
   useEffect(() => {
     setLoading(true);
-    axios.get(`http://localhost:5000/api/movies/${id}`)
+    api.get(`/api/movies/${id}`)
       .then(res => {
         console.log("Fetched movie data:", res.data);
         setMovie(res.data);
@@ -42,7 +42,7 @@ export default function MovieDetails() {
   useEffect(() => {
     setTheatersLoading(true);
     setTheatersError('');
-    axios.get('http://localhost:5000/api/theaters')
+    api.get('/api/theaters')
       .then(res => {
         console.log("Fetched theaters:", res.data);
         setTheaters(res.data);
@@ -75,7 +75,7 @@ export default function MovieDetails() {
     }
 
     // Fetch seat layout for the screen from /api/theaters/:id
-    axios.get(`http://localhost:5000/api/theaters/${selectedTheater}`)
+    api.get(`/api/theaters/${selectedTheater}`)
       .then(res => {
         const theaterData = res.data;
         console.log("Fetched theater data for seat layout:", theaterData);
@@ -123,7 +123,7 @@ export default function MovieDetails() {
       return;
     }
 
-    axios.get('http://localhost:5000/api/bookings/booked-seats', {
+    api.get('/api/bookings/booked-seats', {
       params: {
         movie: id,
         theater: selectedTheater,
@@ -172,14 +172,14 @@ export default function MovieDetails() {
 
     console.log("Attempting to book with payload:", bookingPayload);
 
-    axios.post('http://localhost:5000/api/bookings', bookingPayload, {
+    api.post('/api/bookings', bookingPayload, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(() => {
         alert('Booking successful!');
         setSelectedSeats([]);
         // Refresh booked seats to update UI
-        return axios.get('http://localhost:5000/api/bookings/booked-seats', {
+        return api.get('/api/bookings/booked-seats', {
           params: {
             movie: id,
             theater: selectedTheater,

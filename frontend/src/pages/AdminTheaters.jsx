@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api'; // Corrected
+
 
 export default function AdminTheaters() {
   const [theaters, setTheaters] = useState([]);
@@ -25,7 +26,7 @@ export default function AdminTheaters() {
   const fetchTheaters = () => {
     setLoading(true);
     setError('');
-    axios.get('http://localhost:5000/api/theaters')
+    api.get('/api/theaters')
       .then(res => setTheaters(res.data))
       .catch(() => setError('Failed to load theaters'))
       .finally(() => setLoading(false));
@@ -94,7 +95,7 @@ export default function AdminTheaters() {
       }))
     };
 
-    axios.post('http://localhost:5000/api/theaters', dataToSend, config)
+    api.post('/api/theaters', dataToSend, config)
       .then(() => {
         alert('Theater added successfully');
         setForm({

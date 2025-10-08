@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api'; // Corrected
 import BackToMovies from '../components/BackToMovies';
 
 export default function MyBookings() {
@@ -13,8 +13,8 @@ export default function MyBookings() {
       setLoading(false);
       return;
     }
-    axios
-      .get('http://localhost:5000/api/bookings/my', {
+    api
+      .get('/api/bookings/my', {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(res => setBookings(res.data))
@@ -27,7 +27,7 @@ export default function MyBookings() {
     const token = localStorage.getItem('token');
     if (!window.confirm('Are you sure you want to cancel this booking?')) return;
 
-    axios.delete(`http://localhost:5000/api/bookings/${bookingId}`, {
+    api.delete(`/api/bookings/${bookingId}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(() => {
