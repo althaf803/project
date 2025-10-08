@@ -1,7 +1,6 @@
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-
+import api from './api';
 import Home from './pages/Home';                 // Public landing page before login
 import Movies from './pages/Movies';             // Movies listing page (protected)
 import MovieDetails from './pages/MovieDetails';
@@ -25,7 +24,7 @@ function App() {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const res = await axios.get('http://localhost:5000/api/auth/me', {
+          const res = await api.get('/api/auth/me', {
             headers: { Authorization: `Bearer ${token}` }
           });
           setUser(res.data);
